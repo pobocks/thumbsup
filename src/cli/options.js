@@ -4,7 +4,7 @@ const os = require('node:os')
 const _ = require('lodash')
 const yargs = require('yargs')
 const messages = require('./messages')
-
+const fs = require('node:fs')
 const OPTIONS = {
 
   // ------------------------------------
@@ -524,6 +524,32 @@ function validation (opts) {
   if (opts.videoHwaccel !== 'none' && !opts.videoBitrate) {
     throw new Error('--video-hwaccel requires a value for --bitrate')
   }
+  // These properties should fail if a nonexistent path is set
+  let fileLike = ['input', 'themePath', 'themeSettings', 'config']
+  for (let key of fileLike) {
+    if (opts[key] && !fs.existsSync(path.resolve(opts[key]))){
+      throw new Error(`--${_.kebabCase(key)} value '${opts[key]}' does not exist.`)
+    }
+  }
+  // Ditto for album-from values if they are file:// urls
+
+  // At this point in processing, albumFrom isn't an array if a single file
+  // value is passed
+  let localAlbumFrom = []
+  if (typeof opts.albumFrom === 'string') {
+    localAlbumFrom.push(opts.albumFrom)
+  } else {
+    localAlbumFrom = opts.albumFrom
+  }
+  for (let albumSelector of localAlbumFrom) {
+    console.log(albumSelector)
+    if (albumSelector.startsWith('file://') &&
+        !fs.existsSync(path.resolve(albumSelector.slice(7)))) {
+      console.log('error')
+      throw new Error(`--album-from value '${albumSelector}' does not exist.`)
+    }
+  }
+
   // everything is OK
   return true
 }
