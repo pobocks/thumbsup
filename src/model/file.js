@@ -22,6 +22,8 @@ class File {
     this.path = dbEntry.SourceFile
     this.filename = path.basename(dbEntry.SourceFile)
     this.date = fileDate(dbEntry)
+    this.onlyDate = justDate(dbEntry)
+    this.time = justTIme(dbEntry)
     this.type = mediaType(dbEntry)
     this.isVideo = (this.type === 'video')
     this.output = output.paths(this.path, this.type, opts || {})
@@ -32,6 +34,14 @@ class File {
 
 function fileDate (dbEntry) {
   return moment(dbEntry.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
+}
+
+function justDate (dbEntry) {
+  return dbEntry.File.FileModifyDate.split(' ')[0]
+}
+
+function justTime (dbEntry) {
+  return dbEntry.File.FileModifyDate.split(' ')[1]
 }
 
 function mediaType (dbEntry) {

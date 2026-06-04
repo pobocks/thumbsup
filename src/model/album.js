@@ -25,7 +25,9 @@ const SORT_ALBUMS_BY = {
 
 const SORT_MEDIA_BY = {
   filename: function (file) { return file.filename },
-  date: function (file) { return file.meta.date }
+  date: function (file) { return file.meta.date },
+  onlyDate: function (file) { return file.meta.onlyDate },
+  time: function (file) { return file.meta.onlyTime }
 }
 
 const PREVIEW_MISSING = {
