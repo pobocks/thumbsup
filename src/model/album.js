@@ -26,7 +26,7 @@ const SORT_ALBUMS_BY = {
 const SORT_MEDIA_BY = {
   filename: function (file) { return file.filename },
   date: function (file) { return file.meta.date },
-  date_then_time: function (file) { return [file.onlyDate, file.time] }
+  date_then_time: ['onlyDate', 'time']
 }
 
 const PREVIEW_MISSING = {
@@ -119,8 +119,9 @@ Album.prototype.sort = function (options) {
   const sortMediaBy = getItemOrLast(options.sortMediaBy, this.depth)
   let sortMediaDirection = getItemOrLast(options.sortMediaDirection, this.depth)
   if (sortMediaBy === 'date_then_time') {
-    sortMediaDirection = ['desc', 'asc']
+    sortMediaDirection = ['desc', 'asc'];
   }
+  
   this.files = _.orderBy(this.files, SORT_MEDIA_BY[sortMediaBy], sortMediaDirection)
   this.albums = _.orderBy(this.albums, SORT_ALBUMS_BY[sortAlbumsBy], sortAlbumsDirection)
 }
