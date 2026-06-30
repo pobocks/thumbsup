@@ -23,7 +23,7 @@ class File {
     this.filename = path.basename(dbEntry.SourceFile)
     this.date = fileDate(dbEntry)
     this.onlyDate = justDate(dbEntry)
-    this.time = justTIme(dbEntry)
+    this.time = justTime(dbEntry)
     this.type = mediaType(dbEntry)
     this.isVideo = (this.type === 'video')
     this.output = output.paths(this.path, this.type, opts || {})

@@ -222,7 +222,7 @@ const OPTIONS = {
   'sort-media-by': {
     group: 'Album options:',
     description: 'How to sort photos and videos',
-    choices: ['filename', 'date', 'onlyDate', 'time'],
+    choices: ['filename', 'date', 'date_then_time'],
     coerce: commaSeparated,
     'default': 'date'
   },
